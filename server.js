@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const morgan = require("morgan");
 const connectDB = require("./config/db");
+const fileUpload = require("express-fileupload");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -22,6 +23,7 @@ app.use(cors({ origin: ALLOWED_ORIGINS, credentials: true }));
 app.use(helmet());
 app.use(morgan(NODE_ENV === "production" ? "combined" : "dev"));
 app.use(express.json({ limit: "2mb" }));
+app.use(fileUpload({ useTempFiles: true }));
 
 // ✅ Rate Limiter (fixed)
 const limiter = rateLimit({
